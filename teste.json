@@ -1,0 +1,12 @@
+{'title':'Programador,Python','description':'mulopesksf','name_business':'Troc','location':'email','website':'www.kapivar.top','modality':'Freelance','salary':4000,'emplotment':'CLT','url_job':'wwwwwwww'}
+
+curl -X POST -H "Content-Type: application/json" http://127.0.0.1:5000/job/ -d '{"title":"Programador Python","description":"mulopesksf","name_business":"Troc","location":"curitiba","email":"vizoto@gmail.com","website":"www.kapivar.top","modality":"Freelance","salary":4000,"employment_contract":"CLT","url_job":"wwwwwwww"}'
+
+
+
+
+
+curl -X POST -H "Content-Type: application/json" http://127.0.0.1:5000/job/ -d '{"title":"Programador Python","description":"mulopesksf","name_business":"Troc","location":"curitiba","email":"vizoto@gmail.com","website":"www.kapivar.top","modality":"Freelance","salary":4000,"employment_contract":"CLT","url_job":"wwwwwwww"}'
+
+curl -X POST -H "Content-Type: application/json" http://127.0.0.1:5000/applicant/ -d '{"name":"tiago carneiro vizoto", "email":"vizoto123@gmail.com","message":"ajajajaj","id_job":20}'
+
