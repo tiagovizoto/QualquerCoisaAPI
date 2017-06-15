@@ -70,7 +70,13 @@ def jobs(id=None):
         if not request.json:
             abort(400)
 
-        for r in ['title', 'email', 'location','description','name_business','website','salary','modality','employment_contract']:
+        data_is =[
+            'title', 'email', 'location',
+            'description','name_business',
+            'website','salary','modality',
+            'employment_contract']
+
+        for r in data_is:
             if r not in request.json:
                 abort(400)
 
@@ -112,7 +118,9 @@ def job_page(num_page=None):
     else:
         data = []
         per_page = 10
+
         jobs = Job.query.order_by(Job.date_pub.desc()).paginate(page=num_page,per_page=5, error_out=False)
+
         for j in jobs.items:
 
             data.append({
@@ -129,6 +137,46 @@ def job_page(num_page=None):
                 "url_job": j.url_job,
                 "date_pub": j.date_pub
             })
+        return jsonify(data)
+
+@app.route('/job/search/', methods=['POST'])
+def search_job():
+    if request.method == 'POST':
+        if not request.json:
+            abort(400)
+        if 'search' not in request.json:
+            abort(400)
+        texto = request.json['search']
+        data = []
+        result = Job.query.whoosh_search(texto).all()
+
+        if len(result) == 0:
+            data = {
+                'message': 'Sorry, no results found for your query',
+                'status': 266,
+                'huehuebr': 'Olhe Sempre Pro Lado Bom Da Vida. Fiu, fiu!'
+            }
+            return jsonify(data), 266
+
+        print(type(result))
+        print(result)
+        for j in result:
+            print(type(j))
+            data.append({
+                'id': j.id,
+                "title": j.title,
+                "location": j.location,
+                "description": j.description,
+                "email": j.email,
+                "employment_contract": j.employment_contract,
+                "modality": j.modality,
+                "salary": float(j.salary),
+                "website": j.website,
+                "name_business": j.name_business,
+                "url_job": j.url_job,
+                "date_pub": j.date_pub
+            })
+
         return jsonify(data)
 
 

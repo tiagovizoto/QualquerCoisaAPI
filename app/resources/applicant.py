@@ -11,7 +11,7 @@ def applicante_send():
 
     for r in ['name','email','id_job']:
         if r not in request.json:
-            abort(400)
+            return abort(400)
 
     data = {
         'name': request.json['name'],

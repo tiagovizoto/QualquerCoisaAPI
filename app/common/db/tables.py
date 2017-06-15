@@ -1,11 +1,13 @@
 from app import app, db
 from datetime import datetime
-from sqlalchemy.ext.declarative import declarative_base
+import flask_whooshalchemy as whooshalchemy
 
 
 class Job(db.Model):
 
     __tablename___ = "job"
+    __searchable__ = ['title', 'location', 'skill', 'name_business']
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
     description = db.Column(db.Text)
@@ -19,8 +21,9 @@ class Job(db.Model):
     salary = db.Column(db.Float(10, 2))
     slug = db.Column(db.String(255))
     date_pub = db.Column(db.DateTime)
+    skill = db.Column(db.Text)
 
-    def __init__(self, title, description,name_business,location,email,website,modality,salary,employment_contract,url_job=None):
+    def __init__(self, title, description,name_business,location,email,website,modality,salary,employment_contract,skill,url_job=None):
         self.email = email
         self.description = description
         self.employment_contract = employment_contract
@@ -30,6 +33,7 @@ class Job(db.Model):
         self.salary = salary
         self.website = website
         self.name_business = name_business
+        self.skill = skill
         if url_job is not None:
             self.url_job = url_job
         self.date_pub = datetime.utcnow()
@@ -59,3 +63,5 @@ class Applicant(db.Model):
     def __repr__(self):
         return '<Applicant %r>' % self.name
 
+
+whooshalchemy.whoosh_index(app, Job)
